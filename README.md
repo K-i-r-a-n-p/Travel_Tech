@@ -1,4 +1,8 @@
-# flutter_application_6
+# Travel Tech
+Travel Tech is travel assistant app in which you can seach for buses and trains and will also recommend some best places in India to visit 
+
+
+
 
 A new Flutter project.
 
@@ -14,3 +18,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
