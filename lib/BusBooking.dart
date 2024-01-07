@@ -16,6 +16,7 @@ class _TrainBookingState extends State<BusBooking> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -38,7 +39,7 @@ class _TrainBookingState extends State<BusBooking> {
           const SizedBox(
             height: 20,
           ),
-          buildDropdown('From', fromValue),
+          buildDropdown('From', fromValue, isDarkMode),
           const SizedBox(
             height: 20,
           ),
@@ -52,7 +53,7 @@ class _TrainBookingState extends State<BusBooking> {
           const SizedBox(
             height: 20,
           ),
-          buildDropdown('To', toValue),
+          buildDropdown('To', toValue, isDarkMode),
           const SizedBox(
             height: 20,
           ),
@@ -87,13 +88,14 @@ class _TrainBookingState extends State<BusBooking> {
     );
   }
 
-  Widget buildDropdown(String label, String? selectedValue) {
+  Widget buildDropdown(String label, String? selectedValue, bool isDarkMode) {
     return Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25.0),
       child: Center(
         child: DropdownButton(
           isExpanded: true,
-          style: const TextStyle(color: Colors.black, fontSize: 20),
+          style: TextStyle(
+              color: isDarkMode ? Colors.white : Colors.black, fontSize: 20),
           items: const [
             DropdownMenuItem(
               value: "Shornur",
