@@ -19,8 +19,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   final List<String> allPlaces = [
     "Munnar",
     "Thekkadi",
-    "Alleppey",
-    "Kovalam",
+    "Allapuzha",
     "Wayanad",
     // Add more places as needed
   ];
@@ -159,11 +158,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                           itemBuilder: (context, index) {
                             return ListTile(
                                 title: Text(filteredPlaces[index]),
-                                onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const PlaceMunnar(),
-                                      ),
+                                onTap: () => Navigator.of(context).pushNamed(
+                                      "/${filteredPlaces[index]}",
                                     )
 
                                 // Add onTap to navigate or perform action for each place

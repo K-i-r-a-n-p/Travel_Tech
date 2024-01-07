@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:software_project/ScreenSplash.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:software_project/places/Allapuzha.dart';
+import 'package:software_project/places/Munnar.dart';
+import 'package:software_project/places/Thekkadi.dart';
+import 'package:software_project/places/Wayanad.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +53,12 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
       home: const SplashScreen(),
+      routes: {
+        '/Munnar': (context) => const PlaceMunnar(),
+        '/Thekkadi': (context) => const PlaceThekkadi(),
+        '/Wayanad': (context) => const PlaceWayanad(),
+        '/Allapuzha': (context) => const PlaceAllapuzha(),
+      },
     );
   }
 
