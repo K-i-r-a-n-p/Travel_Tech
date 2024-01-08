@@ -7,6 +7,10 @@ class FirebaseAuthService {
 
   Future<User?> signUp(
       String name, String mobile, String email, String password) async {
+    if (mobile.length != 10) {
+      showToast(message: "Enter a valid mobile number");
+    }
+
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);

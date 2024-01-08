@@ -46,6 +46,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   fluttertoast: ^8.2.4
   provider: ^6.1.1
+  book_my_seat: ^1.0.1
+  flutter_svg: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -73,8 +75,17 @@ flutter:
   assets:
    - assests/SplashImage.png
    - assests/WhatsApp Image 2024-01-07 at 09.27.22_7b367f12.jpg
-   - assests/kerala-backwaters.jpg
+   - assests/Alleppey.jpg
+   - assests/Bekal.jpg
+   - assests/Kuttanad.jpg
+   - assests/Malampuzha.jpg
+   - assests/munnar-1.png
+   - assests/kuruva-island.webp
    - assests/Periyar-National-Park.jpg
+   - assests/seat_unselected.svg
+   - assests/seat_disabled.svg
+   - assests/seat_selected.svg
+   - assests/seat_sold.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

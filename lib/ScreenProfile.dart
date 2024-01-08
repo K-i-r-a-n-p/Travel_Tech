@@ -1,15 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:software_project/Account.dart';
 import 'package:software_project/ScreenLogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:software_project/Transaction.dart';
 import 'package:software_project/global/Common/toast.dart';
 
 import 'main.dart';
 
-class ScreenProfile extends StatelessWidget {
+class ScreenProfile extends StatefulWidget {
   const ScreenProfile({super.key});
+
+  @override
+  State<ScreenProfile> createState() => _ScreenProfileState();
+}
+
+class _ScreenProfileState extends State<ScreenProfile> {
+  late String _userName;
+  late String _userEmail;
+  late String _userPhoneNumber;
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    setState(() {
+      _loading = true;
+    });
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+
+      setState(() {
+        _userName = userSnapshot['name'];
+        _userEmail = userSnapshot['email'];
+        _userPhoneNumber = userSnapshot['mobile'];
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,41 +73,90 @@ class ScreenProfile extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.account_circle,
-              size: 35,
-            ),
-            title: const Text(
-              'My Account',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Account()));
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.currency_rupee_rounded,
-              size: 35,
-            ),
-            title: const Text(
-              'Transaction History',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Transaction()));
-            },
+          Align(
+            alignment: Alignment.topLeft,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(
+                height: 20,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, bottom: 10),
+                child: Text(
+                  "Name",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: _loading
+                    ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : Text(_userName, style: const TextStyle(fontSize: 17)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, bottom: 10),
+                child: Text(
+                  "Email",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: _loading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(_userEmail, style: const TextStyle(fontSize: 17))),
+              const SizedBox(
+                height: 20,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, bottom: 10),
+                child: Text(
+                  "Phone Number",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: _loading
+                    ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : Text(_userPhoneNumber,
+                        style: const TextStyle(fontSize: 17)),
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ]),
           ),
           TextButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                signout(context);
-                showToast(message: "Logout successfull");
-              },
-              child: const Text("Logout"))
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              signout(context);
+              showToast(message: "Logout successfull");
+            },
+            child: const Text(
+              "Logout",
+              style: TextStyle(
+                  fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+          )
         ],
       )),
     );

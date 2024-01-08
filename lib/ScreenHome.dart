@@ -4,8 +4,9 @@ import 'package:software_project/BusBooking.dart';
 import 'package:software_project/Destinations.dart';
 import 'package:software_project/ScreenProfile.dart';
 import 'package:software_project/ScreenSettings.dart';
+import 'package:software_project/Seemore.dart';
 import 'package:software_project/TrainBooking.dart';
-import 'package:software_project/places/Munnar.dart';
+import 'package:software_project/places/Allapuzha.dart';
 import 'package:software_project/places/Thekkadi.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -19,8 +20,14 @@ class _ScreenHomeState extends State<ScreenHome> {
   final List<String> allPlaces = [
     "Munnar",
     "Thekkadi",
-    "Allapuzha",
+    "Alappuzha",
     "Wayanad",
+    "Vagamon",
+    "Idukki",
+    "Kuttanad",
+    "Malampuzha",
+    "Bekal"
+
     // Add more places as needed
   ];
 
@@ -175,19 +182,24 @@ class _ScreenHomeState extends State<ScreenHome> {
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.bold)),
                           TextButton(
-                              onPressed: () {}, child: const Text("See more"))
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const SeeMore()));
+                              },
+                              child: const Text("See more"))
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Image.asset("assests/kerala-backwaters.jpg"),
+                      Image.asset("assests/Alleppey.jpg"),
                       const SizedBox(height: 5),
                       Center(
                           child: TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const PlaceMunnar()));
+                                    builder: (context) =>
+                                        const PlaceAllapuzha()));
                               },
-                              child: const Text("Munnar"))),
+                              child: const Text("Alappuzha"))),
                       const Text("Favourites",
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold)),
@@ -200,7 +212,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                                     builder: (context) =>
                                         const PlaceThekkadi()));
                               },
-                              child: const Text("Thekkadi"))),
+                              child: const Text("Thekkady"))),
                       const SizedBox(height: 15),
                     ],
                   ),

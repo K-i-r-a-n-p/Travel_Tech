@@ -17,7 +17,7 @@ class PlaceWayanad extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Image(image: AssetImage('assests/kerala-backwaters.jpg')),
+            child: Image(image: AssetImage('assests/kuruva-island.webp')),
           ),
           SizedBox(
             height: 20,
@@ -25,9 +25,32 @@ class PlaceWayanad extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 25.0),
             child: Text(
-              "Wayanad is a rural district in Kerala state, southwest India. In the east, the Wayanad Wildlife Sanctuary is a lush, forested region with areas of high altitude, home to animals including Asiatic elephants, tigers, leopards and egrets. In the Ambukuthi Hills to the south, Edakkal Caves contain ancient petroglyphs, some dating back to the Neolithic age.",
+              "Cradled in the lap of the Western Ghats, Wayanad truly deserves a top rank in the list of places to visit in Kerala. Situated at an astounding height of 700-2,100m, this stunning hill station is all about fantasy, untouched nature, unforgettable moments, and merriment!\n\nAdding more to Wayanad’s enchanting beauty, visitors can also revisit and unfold history while visiting this hilly retreat. Yes, the lush and pristine forests in Wayanad are said to be inhabited more than 3,000 years ago.",
               style: TextStyle(fontSize: 20),
             ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 25.0),
+            child: Text(
+              "Best time to visit: Year-round destination",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 25.0),
+            child: Text(
+              "Tourist Attractions: Wayanad Wildlife Sanctuary, Banasura Sagar Dam, Chembra Peak, Soochipara Falls, Sentinel Rock Falls, Kanthanpara Waterfalls, Kuruva Island, Pookode Lake, Lakkidi, Muthanga Wildlife Sanctuary, Pakshipathalam, Edakkal Caves, SulthanBthery, Chain Tree",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          SizedBox(
+            height: 20,
           ),
         ]));
   }

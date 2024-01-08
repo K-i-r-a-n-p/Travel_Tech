@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:software_project/Seat/Bus.dart';
 
 class BusBooking extends StatefulWidget {
   const BusBooking({super.key});
@@ -265,6 +266,10 @@ class _TrainBookingState extends State<BusBooking> {
                             subtitle: Text("$fromValue to $toValue"),
                             trailing: Text(
                                 '${selectedDate!.toLocal().day}/${selectedDate!.toLocal().month}/${selectedDate!.toLocal().year}'),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => BusLayout())));
+                            },
                           ))
                       .toList(),
                 )),
