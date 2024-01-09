@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:software_project/train.dart';
 
 class TrainBooking extends StatefulWidget {
   const TrainBooking({super.key});
@@ -8,10 +9,193 @@ class TrainBooking extends StatefulWidget {
 }
 
 class _TrainBookingState extends State<TrainBooking> {
-  String? fromValue;
-  String? toValue;
+  bool _searching = false;
+  String trainName = '';
+  String fromValue = '';
+  String toValue = '';
   DateTime? selectedDate;
   String? cvalue;
+  List codes = [];
+  Map<String, String> stationCodes = {
+    'Thrissur': 'TCR',
+    'Calicut': 'CLT',
+    'Ernakulam': 'ERS',
+    'Trivandrum': 'TVC',
+    'Aluva': 'AWY',
+    'Kollam': 'QLN',
+    'Palghat': 'PGT',
+    'Kayamkulam': 'KYJ',
+    'Shoranur': 'SRR',
+    'Cannanore': 'CAN',
+    'Ernakulam Town': 'ERN',
+    'Kottayam': 'KTYM',
+    'Tirur': 'TIR',
+    'Chengannur': 'CNGR',
+    'Tellicherry': 'TLY',
+    'Badagara': 'BDJ',
+    'Alappuzha': 'ALLP',
+    'Trivandrum Kochuveli': 'KCVL',
+    'Kasaragod': 'KGQ',
+    'Tiruvalla': 'TRVL',
+    'Payyanur': 'PAY',
+    'Kanhangad': 'KZE',
+    'Ottappalam': 'OTP',
+    'Varkala Sivagiri Station': 'VAK',
+    'Angamaly': 'AFK',
+    'Changanacherry': 'CGY',
+    'Kuttippuram': 'KTU',
+    'Koyilandy': 'QLD',
+    'Guruvayur': 'GUV',
+    'Mavelikara': 'MVLK',
+    'Chalakudi': 'CKI',
+    'Karunagappally': 'KPY',
+    'Irinjalakuda': 'IJK',
+    'Parpanangadi': 'PGI',
+    'Cherthala': 'SRTL',
+    'Wadakanchery': 'WKI',
+    'Feroke': 'FK',
+    'Paravur': 'PVU',
+    'Pattambi': 'PTB',
+    'Nileshwar': 'NLE',
+    'Ambalappuzha': 'AMPA',
+    'Haripad': 'HAD',
+    'Tripunittura': 'TRTR',
+    'Kannapuram': 'KPQ',
+    'Sasthamkotta': 'STKT',
+    'Tanur': 'TA',
+    'Charvattur': 'CHV',
+    'Payangadi': 'PAZ',
+    'Piravam Road': 'PVRD',
+    'Neyyattinkara': 'NYY',
+    'Chirayinkil': 'CRY',
+    'Kazhakkottam': 'KZK',
+    'Parassala': 'PASA',
+    'Kumbala': 'KMQ',
+    'Palakkad Town': 'PGTN',
+    'Vaniyambalam': 'VNB',
+    'Angadippuram': 'AAM',
+    'Nilambur Road': 'NIL',
+    'Thiruvananthapuram Pettah': 'TVP',
+    'Kadakkavoor': 'KVU',
+    'Turavur': 'TUVR',
+    'Idaplli': 'IPL',
+    'Manjeshwar': 'MJS',
+    'Kundara': 'KUV',
+    'Mararikulam': 'MAKM',
+    'Vallikunnu': 'VLI',
+    'Auvaneswarem': 'AVS',
+    'Kotikulam': 'KQK',
+    'Kottarakara': 'KKZ',
+    'Mayyanad': 'MYY',
+    'Pudukad': 'PUK',
+    'Punalur': 'PUU',
+    'Punkunnam': 'PNQ',
+    'Vaikam Road': 'VARD',
+    'Mulanturutti': 'MNTT',
+    'Valapattanam': 'VAPM',
+    'Ettumanur': 'ETM',
+    'Trikarpur': 'TKQ',
+    'Cheriyanad': 'CYN',
+    'Payyoli': 'PYOL',
+    'Kilikollur': 'KLQ',
+    'Bekal Fort': 'BFR',
+    'Kuruppanthara': 'KRPP',
+    'Edamann': 'EDN',
+    'Kollengode': 'KLGD',
+    'Perinad': 'PRND',
+    'Aryankavu New Block': 'AYVN',
+    'Tirunnavaya': 'TUA',
+    'Ezhukone': 'EKN',
+    'Uppala': 'UAA',
+    'Elimala': 'ELM',
+    'Murukkumpuzha': 'MQU',
+    'Ochira': 'OCR',
+    'Kadalundi': 'KN',
+    'Cheppad': 'CHPD',
+    'Lakkiti': 'LDY',
+    'Mulangunnathukavu': 'MGK',
+    'Trivandrum Nemom': 'NEM',
+    'Pappinissery': 'PPNS',
+    'Balaramapuram': 'BRAM',
+    'Pudunagaram': 'PDGM',
+    'Muthalamada': 'MMDA',
+    'Ottakkal': 'OKL',
+    'Elattur': 'ETR',
+    'Karukkutty': 'KUC',
+    'Kallayi Kozhikode South': 'KUL',
+    'Vallathol Nagar': 'VTK',
+    'Kumbalam': 'KUMM',
+    'West Hill': 'WH',
+    'Walayar': 'WRA',
+    'Kanjikode': 'KJKD',
+    'Cannanore South': 'CS',
+    'Pallippuram': 'PUM',
+    'Jagannath Temple Gate': 'JGE',
+    'Tikkotti': 'TKT',
+    'Parli': 'PLL',
+    'Kalamassery': 'KLMR',
+    'Ollur': 'OLR',
+    'Kaniyapuram': 'KXP',
+    'Edakkad': 'ETK',
+    'Edavai': 'EVA',
+    'Mankarai': 'MNY',
+    'Mannanur': 'MNUR',
+    'Karakkad': 'KRKD',
+    'Chingavanam': 'CGV',
+    'Divinenagar': 'DINR',
+    'Munroturuttu': 'MQO',
+    'Tuvvur': 'TUV',
+    'Vallapuzha': 'VPZ',
+    'Pattikkad': 'PKQ',
+    'Cherukara': 'CQA',
+    'Arayankavu': 'AYV',
+    'Melattur': 'MLTR',
+    'Dhanuvachapuram': 'DAVM',
+    'Punnapra': 'PNPR',
+    'Takazhi': 'TZH',
+    'Nadapuram Road': 'NAU',
+    'Vellarakkad': 'VEK',
+    'Amaravila Halt': 'AMVA',
+    'Vadanam Kurussi Halt': 'VDKS',
+    'Akathumuri': 'AMY',
+    'Kaduturutti Halt': 'KDTY',
+    'Chandanattop Halt': 'CTPE',
+    'Vellayil': 'VLL',
+    'Chullimada': 'CLMD',
+    'Kurikad': 'KFE',
+    'Edapalayam Halt': 'EDP',
+    'Kumaranallur': 'KFQ',
+    'Iravipuram': 'IRP',
+    'Aroor Halt': 'AROR',
+    'Ezhuppunna': 'EZP',
+    'Chirakkal': 'CQL',
+    'Iringal': 'IGL',
+    'Kappil': 'KFI',
+    'Palappuram': 'PLPM',
+    'Kulukkalur': 'KZC',
+    'Chovvara': 'CWR',
+    'Karuvatta Halt': 'KVTA',
+    'Veli': 'VELI',
+    'Nellayi': 'NYI',
+    'Kalanad Halt': 'KLAD',
+    'Tumboli': 'TMPY',
+    'Kanjiramattom': 'KPTM',
+    'Chemancheri': 'CMC',
+    'Tiruvizha': 'TRVZ',
+    'Perunguzhi': 'PGZ',
+    'Kodumunda': 'KODN',
+    'Dharmadam': 'DMD',
+    'Kundara East': 'KFV',
+    'Kazhuthuruthy': 'KTHY',
+    'Perssannur': 'PEU',
+    'Mullurkara': 'MUC',
+    'Mukkali': 'MUKE',
+    'Kuri': 'KIF',
+    'Kalavur Halt': 'KAVR',
+    'Koratti Angadi': 'KRAN',
+    'Chandera': 'CDRA',
+    'Vayalar': 'VAY',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +270,14 @@ class _TrainBookingState extends State<TrainBooking> {
           ),
           Center(
             child: ElevatedButton(
-              onPressed: () {},
-              child: const Text("Search", style: TextStyle(fontSize: 20)),
+              onPressed: () {
+                trainDetails();
+              },
+              child: _searching
+                  ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : const Text("Search", style: TextStyle(fontSize: 20)),
             ),
           ),
         ],
@@ -217,6 +407,86 @@ class _TrainBookingState extends State<TrainBooking> {
           ),
         ),
       ),
+    );
+  }
+
+  void trainDetails() {
+    String fplace = fromValue;
+    String tplace = toValue;
+    String fcode = stationCodes[fplace]!;
+    String tcode = stationCodes[tplace]!;
+    codes.add(fcode);
+    codes.add(tcode);
+    trainName = main(codes);
+
+    setState(() {
+      _searching = true;
+    });
+
+    if (fromValue == '' || toValue == '') {
+      setState(() {
+        _searching = false;
+      });
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Select Route'),
+            content: const Text('Please select a route to continue.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    if (selectedDate == null) {
+      setState(() {
+        _searching = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Select Date'),
+            content: const Text('Please select a date to continue.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Train Details'),
+          content: Text('Train Name: $trainName'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

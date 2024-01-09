@@ -3,8 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:software_project/ScreenSplash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:software_project/places/Allapuzha.dart';
+import 'package:software_project/places/Bekal.dart';
+import 'package:software_project/places/Idukki.dart';
+import 'package:software_project/places/Kuttanad.dart';
+import 'package:software_project/places/Malampuzha.dart';
 import 'package:software_project/places/Munnar.dart';
 import 'package:software_project/places/Thekkadi.dart';
+import 'package:software_project/places/Vagamon.dart';
 import 'package:software_project/places/Wayanad.dart';
 
 void main() async {
@@ -58,6 +63,11 @@ class _MyAppState extends State<MyApp> {
         '/Thekkadi': (context) => const PlaceThekkadi(),
         '/Wayanad': (context) => const PlaceWayanad(),
         '/Allapuzha': (context) => const PlaceAllapuzha(),
+        '/Bekal': (context) => const PlaceBekal(),
+        '/Idukki': (context) => const PlaceIdukki(),
+        '/Kuttanad': (context) => const PlaceKuttanad(),
+        '/Malampuzha': (context) => const PlaceMalampuzha(),
+        '/Vagamon': (context) => const PlaceVagamon(),
       },
     );
   }

@@ -147,7 +147,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
     String password = _password.text;
     String name = _name.text;
     String mobile = _mobile.text;
-    int len = _mobile.text.length;
 
     User? user = await _auth.signUp(name, mobile, email, password);
     user?.uid;
