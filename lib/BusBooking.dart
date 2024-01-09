@@ -188,14 +188,14 @@ class _TrainBookingState extends State<BusBooking> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Select Route'),
-            content: Text('Please select a route to continue.'),
+            title: const Text('Select Route'),
+            content: const Text('Please select a route to continue.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -213,14 +213,14 @@ class _TrainBookingState extends State<BusBooking> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Select Date'),
-            content: Text('Please select a date to continue.'),
+            title: const Text('Select Date'),
+            content: const Text('Please select a date to continue.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -254,7 +254,7 @@ class _TrainBookingState extends State<BusBooking> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Available Buses'),
+            title: const Text('Available Buses'),
             content: SizedBox(
                 width: double.maxFinite,
                 height: 200,
@@ -268,7 +268,7 @@ class _TrainBookingState extends State<BusBooking> {
                                 '${selectedDate!.toLocal().day}/${selectedDate!.toLocal().month}/${selectedDate!.toLocal().year}'),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) => BusLayout())));
+                                  builder: ((context) => const BusLayout())));
                             },
                           ))
                       .toList(),
@@ -278,7 +278,7 @@ class _TrainBookingState extends State<BusBooking> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -290,14 +290,15 @@ class _TrainBookingState extends State<BusBooking> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('No Buses Found'),
-            content: Text('Sorry, no buses available for the selected route.'),
+            title: const Text('No Buses Found'),
+            content:
+                const Text('Sorry, no buses available for the selected route.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );

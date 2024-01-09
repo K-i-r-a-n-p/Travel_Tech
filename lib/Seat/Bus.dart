@@ -1,5 +1,6 @@
 import 'package:book_my_seat/book_my_seat.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BusLayout extends StatefulWidget {
   const BusLayout({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class SeatNumber {
 
 class _BusLayoutState extends State<BusLayout> {
   Set<SeatNumber> selectedSeats = {};
+  final paymentUrl = 'https://rzp.io/l/l738RHk';
 
   @override
   Widget build(BuildContext context) {
@@ -218,7 +220,7 @@ class _BusLayoutState extends State<BusLayout> {
                       return AlertDialog(
                         title: const Text('No Seats Selected'),
                         content: const Text('Please book at least 1 seat.'),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.warning,
                           color: Colors.red,
                         ),
@@ -234,24 +236,7 @@ class _BusLayoutState extends State<BusLayout> {
                     },
                   );
                 } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Tickets Booked'),
-                          icon: Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                          ),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Close'))
-                          ],
-                        );
-                      });
+                  launchRazorpayPaymentWebsite();
                 }
               },
               style: ButtonStyle(
@@ -266,5 +251,21 @@ class _BusLayoutState extends State<BusLayout> {
         ),
       ),
     );
+  }
+
+  Future<void> launchRazorpayPaymentWebsite() async {
+    var data = Uri.parse('https://rzp.io/l/l738RHk');
+    // Launch the Razorpay payment website in the default browser
+    await launchUrl(data);
+
+    // Handle return from website to the app (deep linking or custom URL scheme)
+    // ...
+
+    // Example using deep linking: you may need to configure the website
+    // to redirect back to a custom URL scheme registered by the app
+    // (e.g., myapp://payment-completed)
+
+    // When the user returns to the app, you can handle the navigation accordingly
+    // (e.g., show a success message or navigate to a confirmation screen).
   }
 }
