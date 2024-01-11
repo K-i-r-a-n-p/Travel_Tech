@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:software_project/Seat/Bus.dart';
@@ -240,12 +242,12 @@ class _TrainBookingState extends State<BusBooking> {
     });
     // Filter the results based on the second condition
     List<String> matchingBusNames = [];
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       List<String> routes = List<String>.from(doc['route']);
       if (routes.contains(toValue?.toUpperCase())) {
         matchingBusNames.add(doc.id); // Assuming document name is the bus name
       }
-    });
+    }
 
     // Process the filtered results
     if (matchingBusNames.isNotEmpty) {
