@@ -179,6 +179,8 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
       if (user.emailVerified) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MyLoginPage()));
+      } else {
+        showToast(message: "Please verify your email to login");
       }
     }
   }

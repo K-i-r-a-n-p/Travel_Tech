@@ -31,19 +31,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Image.asset(
             "assests/WhatsApp Image 2024-01-07 at 09.27.22_7b367f12.jpg",
-            fit: BoxFit.cover, // Cover the whole screen
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+            height: double.infinity,
           ),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -71,9 +70,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 360.0),
+                      padding: const EdgeInsets.only(
+                        top: 360,
+                      ),
                       child: TextField(
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         controller: _email,
                         decoration: const InputDecoration(
                           hintText: "Email",
@@ -83,9 +84,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: EdgeInsets.only(
+                        top: 10,
+                      ),
                       child: TextField(
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         controller: _password,
                         obscureText: true,
                         decoration: const InputDecoration(
