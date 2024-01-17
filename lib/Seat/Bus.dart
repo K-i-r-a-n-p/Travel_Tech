@@ -1,9 +1,21 @@
 import 'package:book_my_seat/book_my_seat.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../fire_base_auth/database.dart';
+import '../global/Common/toast.dart';
+
 class BusLayout extends StatefulWidget {
-  const BusLayout({Key? key}) : super(key: key);
+  const BusLayout(
+      {Key? key,
+      required this.fromValue,
+      required this.toValue,
+      required this.selectedDate})
+      : super(key: key);
+  final String fromValue;
+  final String toValue;
+  final DateTime selectedDate;
 
   @override
   State<BusLayout> createState() => _BusLayoutState();
@@ -18,7 +30,6 @@ class SeatNumber {
 
 class _BusLayoutState extends State<BusLayout> {
   Set<SeatNumber> selectedSeats = {};
-  final paymentUrl = 'https://rzp.io/l/l738RHk';
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +223,7 @@ class _BusLayoutState extends State<BusLayout> {
               height: 12,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (selectedSeats.isEmpty) {
                   showDialog(
                     context: context,
@@ -237,6 +248,19 @@ class _BusLayoutState extends State<BusLayout> {
                   );
                 } else {
                   launchRazorpayPaymentWebsite();
+                  User? user = FirebaseAuth.instance.currentUser;
+                  String dateOfJourney =
+                      widget.selectedDate.toLocal().toString().split(' ')[0];
+
+                  try {
+                    DatabaseService databaseService =
+                        DatabaseService(uid: user!.uid);
+
+                    await databaseService.createBookingData(
+                        widget.fromValue, widget.toValue, dateOfJourney, 'bus');
+                  } catch (e) {
+                    showToast(message: "Error: $e");
+                  }
                 }
               },
               style: ButtonStyle(

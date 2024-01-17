@@ -1,11 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:software_project/train.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../fire_base_auth/database.dart';
+import '../global/Common/toast.dart';
+
 class TrainDetails extends StatefulWidget {
   final List<TrainInfo> trainInfoList;
+  final String fromValue;
+  final String toValue;
+  final DateTime selectedDate;
 
-  const TrainDetails({required this.trainInfoList, Key? key}) : super(key: key);
+  const TrainDetails({
+    required this.trainInfoList,
+    required this.fromValue,
+    required this.toValue,
+    required this.selectedDate,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TrainDetails> createState() => _TrainDetailsState();
@@ -41,19 +54,19 @@ class _TrainDetailsState extends State<TrainDetails> {
           itemCount: displayedTrainInfoList.length,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Text(displayedTrainInfoList[index].trainName),
-              leading: Text(displayedTrainInfoList[index].trainNumber),
-              subtitle: Text(
-                'Distance: ${displayedTrainInfoList[index].distance} km\n'
-                'From: ${displayedTrainInfoList[index].from}\n'
-                'To: ${displayedTrainInfoList[index].to}',
-              ),
-              trailing:
-                  Text("Duration: ${displayedTrainInfoList[index].duration}"),
-              onTap: () {
-                launchRazorpayPaymentWebsite();
-              },
-            );
+                title: Text(displayedTrainInfoList[index].trainName),
+                leading: Text(displayedTrainInfoList[index].trainNumber),
+                subtitle: Text(
+                  'Distance: ${displayedTrainInfoList[index].distance} km\n'
+                  'From: ${displayedTrainInfoList[index].from}\n'
+                  'To: ${displayedTrainInfoList[index].to}',
+                ),
+                trailing:
+                    Text("Duration: ${displayedTrainInfoList[index].duration}"),
+                onTap: () async {
+                  createData();
+                  launchRazorpayPaymentWebsite();
+                });
           },
         ),
       ),
@@ -63,6 +76,19 @@ class _TrainDetailsState extends State<TrainDetails> {
   Future<void> launchRazorpayPaymentWebsite() async {
     var data = Uri.parse('https://rzp.io/l/l738RHk');
     await launchUrl(data);
+  }
+
+  void createData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    try {
+      DatabaseService databaseService = DatabaseService(uid: user!.uid);
+
+      await databaseService.createBookingData(widget.fromValue, widget.toValue,
+          widget.selectedDate.toLocal().toString().split(' ')[0], 'train');
+    } catch (e) {
+      showToast(message: "Error: $e");
+    }
   }
 
   void showSortOptions(BuildContext context) {
