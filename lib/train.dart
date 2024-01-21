@@ -1,26 +1,43 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:software_project/global/Common/toast.dart';
 
-main(List args) {
-  train(args[0], args[1]).then((trainName) {
-    print(trainName);
+class TrainInfo {
+  final String trainName;
+  final String trainNumber;
+  final String from;
+  final String to;
+  final String duration;
+  final String distance;
+
+  TrainInfo({
+    required this.trainName,
+    required this.trainNumber,
+    required this.from,
+    required this.to,
+    required this.duration,
+    required this.distance,
   });
 }
 
-train(String fcode, String tcode) async {
-  String trainName = 'mumbai express';
+main(List args, String dateofJourney) async {
+  List<TrainInfo> trainInfoList = await train(args[0], args[1], dateofJourney);
+  return trainInfoList;
+}
+
+Future<List<TrainInfo>> train(
+    String fcode, String tcode, String dateofJourney) async {
+  List<TrainInfo> trainInfoList = [];
   const String url =
       "https://irctc1.p.rapidapi.com/api/v3/trainBetweenStations";
-  const String apiKey = "407076c5bamsh9e1d7f6886e6fd0p174078jsnb6846194248e";
-
-  print("object");
+  const String apiKey = "fbf64fbfe0mshb9b0e72cdb34ab7p1a815ajsn534ab9de273a";
 
   Map<String, String> queryParameters = {
     "fromStationCode": fcode,
     "toStationCode": tcode,
-    "dateOfJourney": "2024-01-09",
+    "dateOfJourney": dateofJourney,
   };
-
   Uri uri = Uri.parse(url).replace(queryParameters: queryParameters);
 
   Map<String, String> headers = {
@@ -30,8 +47,6 @@ train(String fcode, String tcode) async {
   try {
     final response = await http.get(uri, headers: headers);
 
-    print("hi");
-
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
       List<Map<String, dynamic>> data =
@@ -39,24 +54,33 @@ train(String fcode, String tcode) async {
               .cast<Map<String, dynamic>>();
 
       if (data.isEmpty) {
-        print("No trains found");
-        return;
+        showToast(message: "No trains found");
       } else {
         for (var trainData in data) {
-          trainName = trainData['train_name'];
+          String trainName = trainData['train_name'];
+          String trainNumber = trainData['train_number'];
+          String from = trainData['from_std'];
+          String to = trainData['to_std'];
+          String duration = trainData['duration'].toString();
+          String distance = trainData['distance'].toString();
+
+          TrainInfo trainInfo = TrainInfo(
+            trainName: trainName,
+            trainNumber: trainNumber,
+            from: from,
+            to: to,
+            duration: duration,
+            distance: distance,
+          );
+
+          trainInfoList.add(trainInfo);
         }
       }
-      // Write the response to a JSON file
-      // final File outputFile = File('output.json');
-      // await outputFile.writeAsString(json.encode(decodedResponse));
-      // print('Output written to output.json');
     } else {
-      print("Request failed with status: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      showToast(message: "Request failed with status: ${response.statusCode}");
     }
   } catch (error) {
-    print("Error: $error");
+    showToast(message: "Error: $error");
   }
-  print(trainName);
-  return trainName;
+  return trainInfoList;
 }
