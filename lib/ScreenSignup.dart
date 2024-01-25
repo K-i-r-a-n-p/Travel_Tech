@@ -48,18 +48,18 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              TextField(
-                controller: _name,
-                decoration: const InputDecoration(
-                    hintText: "Full Name", border: OutlineInputBorder()),
-              ),
+              const Text("Create Account",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.blueAccent)),
               const SizedBox(
                 height: 20,
               ),
               TextField(
-                controller: _username,
+                controller: _name,
                 decoration: const InputDecoration(
-                    hintText: "Username", border: OutlineInputBorder()),
+                    hintText: "Full Name", border: OutlineInputBorder()),
               ),
               const SizedBox(
                 height: 20,
@@ -156,26 +156,30 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
     });
 
     if (user != null) {
-      showToast(message: "SignUp Successfull");
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Verify Email"),
-              content: const Text(
-                  "A verification link has been sent to your email, please verify to login"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MyLoginPage()));
-                    },
-                    child: const Text("OK"))
-              ],
-            );
-          });
+      if (email.contains("@gmail.com")) {
+        showToast(message: "SignUp Successfull");
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Verify Email"),
+                content: const Text(
+                    "A verification link has been sent to your email, please verify to login"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyLoginPage()));
+                      },
+                      child: const Text("OK"))
+                ],
+              );
+            });
+      } else {
+        showToast(message: "enter valid email");
+      }
       if (user.emailVerified) {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MyLoginPage()));
