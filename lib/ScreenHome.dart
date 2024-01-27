@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:software_project/Bookings.dart';
 import 'package:software_project/BusBooking.dart';
-import 'package:software_project/Destinations.dart';
+import 'package:software_project/ScreenMap.dart';
 import 'package:software_project/ScreenProfile.dart';
 import 'package:software_project/ScreenSettings.dart';
 import 'package:software_project/Seemore.dart';
 import 'package:software_project/TrainBooking.dart';
+import 'package:software_project/global/Common/Bookingdetails.dart';
 import 'package:software_project/places/Allapuzha.dart';
 import 'package:software_project/places/Thekkadi.dart';
 
@@ -17,6 +18,8 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  final AppState appState = AppState();
+
   final List<String> allPlaces = [
     "Munnar",
     "Thekkadi",
@@ -27,8 +30,6 @@ class _ScreenHomeState extends State<ScreenHome> {
     "Kuttanad",
     "Malampuzha",
     "Bekal"
-
-    // Add more places as needed
   ];
 
   List<String> filteredPlaces = [];
@@ -86,8 +87,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                 leading: const Icon(Icons.book_online_sharp),
                 title: const Text('My Bookings'),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Bookings()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Bookings()));
                 },
               ),
               ListTile(
@@ -108,10 +109,10 @@ class _ScreenHomeState extends State<ScreenHome> {
               ),
               ListTile(
                 leading: const Icon(Icons.location_on),
-                title: const Text('Saved Destinations'),
+                title: const Text('Map'),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Destinations()));
+                      builder: (context) => const ScreenMap()));
                 },
               ),
               ListTile(
@@ -219,5 +220,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                 )),
           ),
         ));
+  }
+
+  void updateBookings(String bookingDetails) {
+    setState(() {
+      appState.bookedTrains.add(bookingDetails);
+    });
   }
 }

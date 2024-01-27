@@ -12,7 +12,7 @@ import 'package:software_project/places/Thekkadi.dart';
 import 'package:software_project/places/Vagamon.dart';
 import 'package:software_project/places/Wayanad.dart';
 
-void main() async {
+void main(codes) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Travel And Tourism',
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
