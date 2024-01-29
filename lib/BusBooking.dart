@@ -1,8 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:software_project/Seat/Bus.dart';
+import 'package:software_project/global/Common/toast.dart';
+import 'fire_base_auth/database.dart';
+import 'global/Common/Bookingdetails.dart';
 
 class BusBooking extends StatefulWidget {
   const BusBooking({super.key});
@@ -16,6 +20,7 @@ class _TrainBookingState extends State<BusBooking> {
   String? toValue;
   DateTime? selectedDate;
   bool _searching = false;
+  final AppState appState = AppState();
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +236,6 @@ class _TrainBookingState extends State<BusBooking> {
       return;
     }
 
-    // Perform the Firestore query
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('busSchedules')
         .where('route', arrayContains: fromValue?.toUpperCase())
@@ -240,18 +244,16 @@ class _TrainBookingState extends State<BusBooking> {
     setState(() {
       _searching = false;
     });
-    // Filter the results based on the second condition
+
     List<String> matchingBusNames = [];
     for (var doc in querySnapshot.docs) {
       List<String> routes = List<String>.from(doc['route']);
       if (routes.contains(toValue?.toUpperCase())) {
-        matchingBusNames.add(doc.id); // Assuming document name is the bus name
+        matchingBusNames.add(doc.id);
       }
     }
 
-    // Process the filtered results
     if (matchingBusNames.isNotEmpty) {
-      // Buses found, you can handle and display the results here
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -270,7 +272,10 @@ class _TrainBookingState extends State<BusBooking> {
                                 '${selectedDate!.toLocal().day}/${selectedDate!.toLocal().month}/${selectedDate!.toLocal().year}'),
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) => const BusLayout())));
+                                  builder: ((context) => BusLayout(
+                                      fromValue: fromValue!,
+                                      toValue: toValue!,
+                                      selectedDate: selectedDate!))));
                             },
                           ))
                       .toList(),
