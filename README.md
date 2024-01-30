@@ -1,5 +1,5 @@
 # Travel Tech
-Travel Tech is a travel assistant app, From searching for buses and trains to discovering new destinations on a real-world map, Travel Tech brings seamless travel solutions to your fingertips.
+Travel Tech is a travel assistant app, From searching for buses and trains to discovering new destinations on a real-world map, Travel Tech also recommends some great places to visit in Kerala.
 
 ## Features
 
